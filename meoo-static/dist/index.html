@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#6d0f20" />
+  <title>幸运翻牌</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="hero">
+      <p class="eyebrow"><span></span>LUCKY MOMENT<span></span></p>
+      <h1>幸运翻牌</h1>
+      <p class="subtitle">心动好礼，藏在其中</p>
+    </header>
+
+    <section class="phone-gate" id="phoneGate">
+      <p class="gate-kicker">ENTER THE GAME</p>
+      <h2>留下手机号，开启幸运时刻</h2>
+      <p>手机号仅用于记录中奖结果，无需验证码</p>
+      <form id="phoneForm">
+        <label class="sr-only" for="phoneInput">手机号</label>
+        <input id="phoneInput" type="tel" placeholder="请输入手机号" autocomplete="tel" required />
+        <button class="primary-button" type="submit">开始抽奖</button>
+      </form>
+      <p class="form-error" id="phoneError" aria-live="polite"></p>
+    </section>
+
+    <section class="game-area" id="gameArea" hidden>
+      <div class="player-bar">
+        <span>参与号码：<strong id="currentPhone"></strong></span>
+        <button id="changePhone" type="button">更换手机号</button>
+      </div>
+      <section class="cards" id="cards" aria-label="幸运卡牌"></section>
+      <p class="hint" id="hint"><span>✦</span> 请选择一张牌 · 每轮仅可翻开一次 <span>✦</span></p>
+    </section>
+
+    <div class="admin-actions">
+      <button class="tool-button" id="resetButton" type="button">↻ <span>RESET</span></button>
+      <button class="tool-button" id="historyButton" type="button">▤ <span>HISTORY</span></button>
+    </div>
+  </main>
+
+  <div class="modal" id="prizeModal" role="dialog" aria-modal="true" aria-labelledby="prizeTitle" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel prize-panel">
+      <button class="modal-close" type="button" aria-label="关闭">×</button>
+      <div class="modal-sparkle">✦</div>
+      <p class="modal-kicker">CONGRATULATIONS</p>
+      <h2 id="prizeTitle">恭喜你！</h2>
+      <p class="prize-copy" id="prizeCopy"></p>
+      <button class="primary-button modal-ok" type="button">开心收下</button>
+    </div>
+  </div>
+
+  <div class="modal" id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="passwordTitle" hidden>
+    <div class="modal-backdrop"></div>
+    <form class="modal-panel" id="passwordForm">
+      <button class="modal-close" type="button" aria-label="关闭">×</button>
+      <p class="modal-kicker">ADMIN ACCESS</p>
+      <h2 id="passwordTitle">请输入管理密码</h2>
+      <p class="modal-help" id="passwordHelp">验证后可继续操作</p>
+      <input id="passwordInput" type="password" inputmode="numeric" maxlength="4" placeholder="请输入 4 位密码" autocomplete="off" required />
+      <p class="form-error" id="passwordError" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="secondary-button cancel-modal" type="button">取消</button>
+        <button class="primary-button" type="submit">确认</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal" id="configModal" role="dialog" aria-modal="true" aria-labelledby="configTitle" hidden>
+    <div class="modal-backdrop"></div>
+    <form class="modal-panel config-panel" id="configForm">
+      <button class="modal-close" type="button" aria-label="关闭">×</button>
+      <p class="modal-kicker">PRIZE SETTINGS</p>
+      <h2 id="configTitle">自定义卡片与兑奖文案</h2>
+      <label class="field-label" for="prizesInput">卡片内容 <small>每行代表一张卡片</small></label>
+      <textarea id="prizesInput" rows="7" placeholder="口红&#10;包&#10;花" required></textarea>
+      <label class="field-label" for="redemptionInput">兑奖提示语</label>
+      <input id="redemptionInput" type="text" maxlength="200" required />
+      <p class="form-error" id="configError" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="secondary-button cancel-modal" type="button">取消</button>
+        <button class="primary-button" type="submit">保存并重置</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-labelledby="historyTitle" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel history-panel">
+      <button class="modal-close" type="button" aria-label="关闭">×</button>
+      <p class="modal-kicker">DRAW HISTORY</p>
+      <h2 id="historyTitle">抽奖记录</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>手机号</th><th>抽中奖品</th><th>抽奖时间</th></tr></thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+        <p class="empty-state" id="historyEmpty" hidden>暂无抽奖记录</p>
+      </div>
+      <button class="primary-button close-history" type="button">关闭</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <script src="script.js"></script>
+</body>
+</html>
